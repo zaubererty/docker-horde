@@ -1,6 +1,6 @@
 FROM phusion/baseimage:latest
 
-MAINTAINER Martijn van Maurik <docker@vmaurik.nl>
+MAINTAINER Thomas Ziegler <zieglert@gmx.de>
 
 ENV HOME /root
 
@@ -9,7 +9,6 @@ RUN apt-get install -y apache2 php-pear php-horde php-horde-imp php-horde-groupw
 RUN apt-get install -y php-net-sieve
 RUN pear install Net_DNS2
 RUN pecl install lzf
-RUN pecl install horde_lz4
 
 RUN echo extension=lzf.so > /etc/php5/mods-available/lzf.ini && php5enmod lzf
 RUN echo extension=horde_lz4.so > /etc/php5/mods-available/horde_lzf.ini && php5enmod horde_lzf
@@ -31,7 +30,7 @@ RUN a2dissite 000-default && a2disconf php-horde
 RUN mkdir -p /etc/apache2/scripts
 ADD proxy_client_ip.php /etc/apache2/scripts/proxy_client_ip.php
 
-ADD horde.conf /etc/apache2/sites-available/horde.conf
+ADD apache-horde.conf /etc/apache2/sites-available/horde.conf
 RUN a2ensite horde
 
 VOLUME /etc/horde
